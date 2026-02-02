@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-configmap-env
+spec:
+  containers:
+    - name: app
+      image: nginx:alpine
+      envFrom:
+        - configMapRef:
+            name: app-config
+      env:
+        - name: CUSTOM_VAR
+          valueFrom:
+            configMapKeyRef:
+              name: app-config-yaml
+              key: APP_ENV

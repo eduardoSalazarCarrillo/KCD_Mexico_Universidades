@@ -1,0 +1,33 @@
+# Deployment con estrategia Recreate
+# Este archivo se usa para comparar con la estrategia RollingUpdate
+# Con Recreate, todos los pods se eliminan antes de crear los nuevos (hay downtime)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app-recreate
+  annotations:
+    kubernetes.io/change-cause: "Deployment con estrategia Recreate"
+spec:
+  replicas: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: web-recreate
+  template:
+    metadata:
+      labels:
+        app: web-recreate
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.20-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"

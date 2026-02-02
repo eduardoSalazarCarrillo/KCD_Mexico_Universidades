@@ -884,33 +884,33 @@ Esta sección rastrea el progreso de creación de archivos para cada laboratorio
 
 #### Lab 10: ConfigMaps
 
-- [ ] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-10-configmaps/README.md`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-10-configmaps/initial/`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-10-configmaps/solution/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-10-configmaps/README.md`
+- [x] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-10-configmaps/initial/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-10-configmaps/solution/`
 
 #### Lab 11: Secrets
 
-- [ ] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-11-secrets/README.md`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-11-secrets/initial/`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-11-secrets/solution/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-11-secrets/README.md`
+- [x] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-11-secrets/initial/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-07-configuracion/lab-11-secrets/solution/`
 
 #### Lab 12: Persistent Storage
 
-- [ ] `labs/nivel-3-uso-intermedio/modulo-08-almacenamiento/lab-12-persistent-storage/README.md`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-08-almacenamiento/lab-12-persistent-storage/initial/`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-08-almacenamiento/lab-12-persistent-storage/solution/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-08-almacenamiento/lab-12-persistent-storage/README.md`
+- [x] `labs/nivel-3-uso-intermedio/modulo-08-almacenamiento/lab-12-persistent-storage/initial/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-08-almacenamiento/lab-12-persistent-storage/solution/`
 
 #### Lab 13: Horizontal Pod Autoscaler
 
-- [ ] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-13-hpa/README.md`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-13-hpa/initial/`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-13-hpa/solution/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-13-hpa/README.md`
+- [x] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-13-hpa/initial/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-13-hpa/solution/`
 
 #### Lab 14: Rolling Updates y Rollbacks
 
-- [ ] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-14-rolling-updates/README.md`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-14-rolling-updates/initial/`
-- [ ] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-14-rolling-updates/solution/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-14-rolling-updates/README.md`
+- [x] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-14-rolling-updates/initial/`
+- [x] `labs/nivel-3-uso-intermedio/modulo-09-escalamiento/lab-14-rolling-updates/solution/`
 
 ### Nivel 4: Operación y Buenas Prácticas
 

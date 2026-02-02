@@ -1,0 +1,42 @@
+# Deployment con estrategia RollingUpdate
+# Este archivo es el punto de partida para practicar actualizaciones sin downtime
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  annotations:
+    kubernetes.io/change-cause: "Initial deployment v1"
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1 # Permite 1 pod extra durante la actualización
+      maxUnavailable: 1 # Permite 1 pod no disponible durante la actualización
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+        version: v1
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.20-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
