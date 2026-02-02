@@ -149,7 +149,7 @@ fi
 echo ""
 echo "9. Verificando Prometheus Operator..."
 
-OPERATOR_PODS=$(kubectl get pods -n monitoring -l app.kubernetes.io/name=prometheus-operator --no-headers 2>/dev/null | grep -c "Running" || echo "0")
+OPERATOR_PODS=$(kubectl get pods -n monitoring -l app.kubernetes.io/name=kube-prometheus-stack-prometheus-operator --no-headers 2>/dev/null | grep -c "Running" || echo "0")
 if [ "$OPERATOR_PODS" -gt 0 ]; then
     check_passed "Prometheus Operator está corriendo"
 else

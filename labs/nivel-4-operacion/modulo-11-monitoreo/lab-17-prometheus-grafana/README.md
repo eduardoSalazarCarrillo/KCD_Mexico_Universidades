@@ -192,3 +192,7 @@ kubectl delete namespace monitoring
 ## Solución
 
 Consulta el directorio `solution/` para configuraciones adicionales.
+
+---
+
+[← Lab 16: Service Accounts](../../modulo-10-seguridad/lab-16-service-accounts/README.md) | [Lab 18: Managed Kubernetes →](../../modulo-12-cloud/lab-18-managed-kubernetes/README.md)

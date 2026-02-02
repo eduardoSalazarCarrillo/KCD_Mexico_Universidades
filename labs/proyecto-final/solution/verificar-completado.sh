@@ -21,13 +21,25 @@ check_resource() {
     local name=$2
     local namespace=$3
 
-    if kubectl get $type $name -n $namespace &>/dev/null; then
-        echo "✅ $type/$name existe"
-        return 0
+    # Para namespaces, no usar -n flag
+    if [ "$type" = "namespace" ]; then
+        if kubectl get $type $name &>/dev/null; then
+            echo "✅ $type/$name existe"
+            return 0
+        else
+            echo "❌ $type/$name NO encontrado"
+            ((ERRORS++))
+            return 1
+        fi
     else
-        echo "❌ $type/$name NO encontrado"
-        ((ERRORS++))
-        return 1
+        if kubectl get $type $name -n $namespace &>/dev/null; then
+            echo "✅ $type/$name existe"
+            return 0
+        else
+            echo "❌ $type/$name NO encontrado"
+            ((ERRORS++))
+            return 1
+        fi
     fi
 }
 
@@ -86,7 +98,16 @@ check_pods_running "app=backend" 2 $NAMESPACE
 echo "Verificando health check del backend..."
 BACKEND_POD=$(kubectl get pod -l app=backend -n $NAMESPACE -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
 if [ -n "$BACKEND_POD" ]; then
-    HEALTH=$(kubectl exec $BACKEND_POD -n $NAMESPACE -- wget -q -O - http://localhost:3000/health 2>/dev/null)
+    # Usar node para el health check (wget no disponible en alpine)
+    # Usar 127.0.0.1 en lugar de localhost para evitar problemas con IPv6
+    HEALTH=$(kubectl exec $BACKEND_POD -n $NAMESPACE -- node -e "
+        const http = require('http');
+        http.get('http://127.0.0.1:3000/health', (res) => {
+            let data = '';
+            res.on('data', (chunk) => data += chunk);
+            res.on('end', () => console.log(data));
+        }).on('error', () => process.exit(1));
+    " 2>/dev/null)
     if echo "$HEALTH" | grep -q "ok"; then
         echo "✅ Backend health check: OK"
     else
@@ -148,16 +169,19 @@ echo "=== Verificando Conectividad ==="
 
 # Verificar conexión backend -> postgres
 echo "Verificando conexión backend -> postgres..."
-if kubectl exec $BACKEND_POD -n $NAMESPACE -- wget -q -O - --timeout=5 postgres:5432 2>/dev/null; then
+# Usar node para verificar conectividad TCP (wget y nc no disponibles en alpine)
+if kubectl exec $BACKEND_POD -n $NAMESPACE -- node -e "
+    const net = require('net');
+    const socket = new net.Socket();
+    socket.setTimeout(5000);
+    socket.connect(5432, 'postgres', () => { console.log('connected'); socket.destroy(); process.exit(0); });
+    socket.on('error', () => process.exit(1));
+    socket.on('timeout', () => process.exit(1));
+" 2>/dev/null | grep -q "connected"; then
     echo "✅ Backend puede conectar a PostgreSQL"
 else
-    # wget a puerto TCP sin HTTP dará error, pero si hay timeout es problema de red
-    if kubectl exec $BACKEND_POD -n $NAMESPACE -- nc -zv postgres 5432 2>&1 | grep -q "open\|succeeded"; then
-        echo "✅ Backend puede conectar a PostgreSQL (puerto abierto)"
-    else
-        echo "⚠️  No se pudo verificar conexión a PostgreSQL"
-        ((WARNINGS++))
-    fi
+    echo "⚠️  No se pudo verificar conexión a PostgreSQL"
+    ((WARNINGS++))
 fi
 echo ""
 

@@ -177,3 +177,8 @@ kubectl apply -f configmap.yaml
 ## Solución
 
 Consulta el directorio `solution/` para ver ejemplos completos.
+
+## Navegación
+
+- **Anterior**: [Lab 09: Ingress](../../../nivel-2-uso-basico/modulo-06-servicios-networking/lab-09-ingress/README.md)
+- **Siguiente**: [Lab 11: Secrets](../lab-11-secrets/README.md)

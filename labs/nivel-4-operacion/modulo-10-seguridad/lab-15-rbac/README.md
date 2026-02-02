@@ -188,3 +188,10 @@ kubectl describe clusterrole cluster-admin
 ## Solución
 
 Consulta el directorio `solution/` para ejemplos completos.
+
+---
+
+## Navegación
+
+- **Anterior:** [Lab 14: Rolling Updates](../../modulo-09-escalamiento/lab-14-rolling-updates/README.md)
+- **Siguiente:** [Lab 16: Service Accounts](../lab-16-service-accounts/README.md)

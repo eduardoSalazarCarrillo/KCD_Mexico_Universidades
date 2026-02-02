@@ -287,7 +287,19 @@ fi
 echo ""
 echo "11. Verificando kubectl top pods..."
 
-if kubectl top pods -l app=hpa-test &> /dev/null; then
+# Esperar a que las métricas estén disponibles para los pods recién creados
+# Metrics Server puede tardar hasta 60 segundos en recopilar métricas de pods nuevos
+METRICS_READY=false
+for i in {1..4}; do
+    echo "   Intento $i/4 - Esperando métricas de pods..."
+    sleep 15
+    if kubectl top pods -l app=hpa-test &> /dev/null; then
+        METRICS_READY=true
+        break
+    fi
+done
+
+if [ "$METRICS_READY" = true ]; then
     check_passed "Puede obtener métricas de pods"
 else
     check_warning "No puede obtener métricas de pods (Metrics Server puede no estar listo)"

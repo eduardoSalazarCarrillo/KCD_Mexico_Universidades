@@ -211,3 +211,10 @@ kubectl get pv  # Ver PV creado dinámicamente
 ## Solución
 
 Consulta el directorio `solution/` para configuraciones adicionales.
+
+---
+
+## Navegación
+
+- **Anterior:** [Lab 11 - Secrets](../../modulo-07-configuracion/lab-11-secrets/README.md)
+- **Siguiente:** [Lab 13 - HPA](../../modulo-09-escalamiento/lab-13-hpa/README.md)

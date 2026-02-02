@@ -188,3 +188,10 @@ kubectl get pods -l app=web-recreate -w
 ## Solución
 
 Consulta el directorio `solution/` para estrategias avanzadas.
+
+---
+
+## Navegación
+
+- **Anterior:** [Lab 13 - HPA](../lab-13-hpa/README.md)
+- **Siguiente:** [Lab 15 - RBAC](../../../nivel-4-operacion/modulo-10-seguridad/lab-15-rbac/README.md)

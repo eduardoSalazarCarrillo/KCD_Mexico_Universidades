@@ -185,3 +185,10 @@ kubectl get pods -w
 ## Solución
 
 Consulta el directorio `solution/` para configuraciones avanzadas.
+
+---
+
+## Navegación
+
+- **Anterior:** [Lab 12 - Persistent Storage](../../modulo-08-almacenamiento/lab-12-persistent-storage/README.md)
+- **Siguiente:** [Lab 14 - Rolling Updates](../lab-14-rolling-updates/README.md)

@@ -4,7 +4,7 @@
 # - Usar node:18-alpine como imagen base
 # - Establecer /app como directorio de trabajo
 # - Copiar package*.json primero
-# - Ejecutar npm ci --only=production
+# - Ejecutar npm install --omit=dev (instala solo dependencias de producción)
 # - Copiar el resto del código
 # - Exponer el puerto 3000
 # - Definir el comando de inicio: node server.js

@@ -330,7 +330,7 @@ pod "john-pod" deleted
 ### Verificar permisos del scaler-user
 
 ```
-$ kubectl auth can-i update deployments/scale -n rbac-lab --as=scaler-user
+$ kubectl auth can-i get deployments -n rbac-lab --as=scaler-user
 yes
 
 $ kubectl auth can-i delete deployments -n rbac-lab --as=scaler-user
@@ -340,7 +340,18 @@ $ kubectl auth can-i create pods -n rbac-lab --as=scaler-user
 no
 ```
 
-> **Principio de menor privilegio**: El `scaler-user` SOLO puede escalar deployments, nada mas.
+### Probar escalamiento real como scaler-user
+
+```
+$ kubectl scale deployment nginx-test -n rbac-lab --replicas=4 --as=scaler-user
+deployment.apps/nginx-test scaled
+
+$ kubectl get deployment nginx-test -n rbac-lab
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-test   4/4     4            4           2m
+```
+
+> **Principio de menor privilegio**: El `scaler-user` puede escalar deployments, pero no crear ni eliminar recursos.
 
 ## Paso 11: Ver todos los Roles y Bindings
 

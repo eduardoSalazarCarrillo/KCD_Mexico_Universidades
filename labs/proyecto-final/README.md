@@ -80,7 +80,7 @@ Desplegarás una aplicación de gestión de tareas (To-Do App) con:
 FROM node:18-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
 RUN npm run build
 
@@ -97,7 +97,7 @@ EXPOSE 80
 FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev
 COPY . .
 EXPOSE 3000
 CMD ["node", "server.js"]
@@ -320,10 +320,10 @@ metadata:
 type: Opaque
 stringData:
   POSTGRES_USER: todouser
-  POSTGRES_PASSWORD: supersecret
+  POSTGRES_PASSWORD: supersecret123
   POSTGRES_DB: tododb
   DB_USER: todouser
-  DB_PASSWORD: supersecret
+  DB_PASSWORD: supersecret123
 ```
 
 ## Fase 4: Networking
@@ -339,6 +339,7 @@ metadata:
   namespace: todo-app
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
@@ -439,3 +440,7 @@ curl http://todo.local/api/health
 ## Solución
 
 Consulta el directorio `solution/` para una implementación completa de referencia.
+
+---
+
+[← Lab 18: Managed Kubernetes](../nivel-4-operacion/modulo-12-cloud/lab-18-managed-kubernetes/README.md) | [Inicio](../../README.md)

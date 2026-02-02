@@ -4,7 +4,7 @@
 # - Usar node:18-alpine como imagen base
 # - Establecer /app como directorio de trabajo
 # - Copiar package*.json
-# - Ejecutar npm ci
+# - Ejecutar npm install
 # - Copiar el resto del código
 # - Ejecutar npm run build
 #

@@ -40,16 +40,8 @@ grafana:
       cpu: 200m
       memory: 256Mi
 
-  # Configuración de datasources
-  datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-        - name: Prometheus
-          type: prometheus
-          url: http://prometheus-kube-prometheus-prometheus:9090
-          access: proxy
-          isDefault: true
+  # NOTA: kube-prometheus-stack ya configura el datasource de Prometheus automáticamente.
+  # No es necesario definirlo aquí ya que el chart lo incluye por defecto.
 
   # Dashboards adicionales
   dashboardProviders:

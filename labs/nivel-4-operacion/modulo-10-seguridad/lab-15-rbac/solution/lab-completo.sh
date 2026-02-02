@@ -460,17 +460,33 @@ EOF
 
 echo ""
 print_substep "Verificar permisos del scaler-user"
-print_command "kubectl auth can-i update deployments/scale -n rbac-lab --as=scaler-user"
-kubectl auth can-i update deployments/scale -n rbac-lab --as=scaler-user
 
+echo "Verificar que scaler-user puede VER deployments:"
+print_command "kubectl auth can-i get deployments -n rbac-lab --as=scaler-user"
+kubectl auth can-i get deployments -n rbac-lab --as=scaler-user
+
+echo ""
+echo "Verificar que scaler-user NO puede ELIMINAR deployments:"
 print_command "kubectl auth can-i delete deployments -n rbac-lab --as=scaler-user"
 kubectl auth can-i delete deployments -n rbac-lab --as=scaler-user || true
 
+echo ""
+echo "Verificar que scaler-user NO puede CREAR pods:"
 print_command "kubectl auth can-i create pods -n rbac-lab --as=scaler-user"
 kubectl auth can-i create pods -n rbac-lab --as=scaler-user || true
 
 echo ""
-print_info "scaler-user SOLO puede escalar deployments, nada mas!"
+print_substep "Probar escalamiento real como scaler-user"
+echo "Escalar nginx-test a 4 replicas:"
+print_command "kubectl scale deployment nginx-test -n rbac-lab --replicas=4 --as=scaler-user"
+kubectl scale deployment nginx-test -n rbac-lab --replicas=4 --as=scaler-user
+
+echo ""
+print_command "kubectl get deployment nginx-test -n rbac-lab"
+kubectl get deployment nginx-test -n rbac-lab
+
+echo ""
+print_info "scaler-user puede escalar deployments, pero no crear ni eliminar recursos!"
 
 echo ""
 echo -e "${GREEN}OK Role de scaler creado${NC}"

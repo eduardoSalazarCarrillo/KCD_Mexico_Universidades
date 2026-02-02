@@ -188,3 +188,10 @@ kubectl get pods --token=$TOKEN
 ## Solución
 
 Consulta el directorio `solution/` para ejemplos avanzados.
+
+---
+
+## Navegación
+
+- **Anterior:** [Lab 15: RBAC](../lab-15-rbac/README.md)
+- **Siguiente:** [Lab 17: Prometheus y Grafana](../../modulo-11-monitoreo/lab-17-prometheus-grafana/README.md)
