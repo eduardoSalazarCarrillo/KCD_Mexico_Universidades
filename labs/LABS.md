@@ -841,9 +841,9 @@ Esta sección rastrea el progreso de creación de archivos para cada laboratorio
 
 #### Lab 03: Cluster Exploration
 
-- [ ] `labs/nivel-1-fundamentos/modulo-03-arquitectura-kubernetes/lab-03-cluster-exploration/README.md`
-- [ ] `labs/nivel-1-fundamentos/modulo-03-arquitectura-kubernetes/lab-03-cluster-exploration/initial/`
-- [ ] `labs/nivel-1-fundamentos/modulo-03-arquitectura-kubernetes/lab-03-cluster-exploration/solution/`
+- [x] `labs/nivel-1-fundamentos/modulo-03-arquitectura/lab-03-cluster-exploration/README.md`
+- [x] `labs/nivel-1-fundamentos/modulo-03-arquitectura/lab-03-cluster-exploration/initial/`
+- [x] `labs/nivel-1-fundamentos/modulo-03-arquitectura/lab-03-cluster-exploration/solution/`
 
 ### Nivel 2: Uso Básico
 
