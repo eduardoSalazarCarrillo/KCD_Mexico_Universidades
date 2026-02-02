@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do App - KCD Mexico</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>📝 Lista de Tareas</h1>
+        <p>KCD Mexico - Proyecto Final</p>
+      </header>
+
+      <main>
+        <form id="todo-form">
+          <input
+            type="text"
+            id="todo-input"
+            placeholder="Agregar nueva tarea..."
+            required
+          />
+          <button type="submit">Agregar</button>
+        </form>
+
+        <div id="loading" class="hidden">Cargando...</div>
+        <div id="error" class="hidden"></div>
+
+        <ul id="todo-list"></ul>
+      </main>
+
+      <footer>
+        <p>Desplegado en Kubernetes</p>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

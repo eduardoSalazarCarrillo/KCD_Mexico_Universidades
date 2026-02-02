@@ -25,13 +25,13 @@ CHECKS_TOTAL=0
 
 check_passed() {
     echo -e "${GREEN}✓${NC} $1"
-    ((CHECKS_PASSED++))
-    ((CHECKS_TOTAL++))
+    ((++CHECKS_PASSED))
+    ((++CHECKS_TOTAL))
 }
 
 check_failed() {
     echo -e "${RED}✗${NC} $1"
-    ((CHECKS_TOTAL++))
+    ((++CHECKS_TOTAL))
 }
 
 # =============================================================================

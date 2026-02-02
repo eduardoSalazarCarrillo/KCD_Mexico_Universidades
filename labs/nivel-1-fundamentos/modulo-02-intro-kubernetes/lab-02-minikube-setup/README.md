@@ -588,4 +588,4 @@ Consulta el directorio `solution/` para ver los scripts con todos los comandos y
 ## Navegación
 
 - **Anterior**: [Lab 01: Docker Basics](../../modulo-01-cloud-contenedores/lab-01-docker-basics/README.md)
-- **Siguiente**: [Lab 03: Cluster Exploration](../../modulo-03-arquitectura-kubernetes/lab-03-cluster-exploration/README.md)
+- **Siguiente**: [Lab 03: Cluster Exploration](../../modulo-03-arquitectura/lab-03-cluster-exploration/README.md)

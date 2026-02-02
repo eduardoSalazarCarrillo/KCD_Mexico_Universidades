@@ -249,7 +249,7 @@ echo ""
 echo "14. Verificando kubelet dentro del nodo..."
 
 if minikube ssh -- systemctl is-active kubelet &> /dev/null; then
-    KUBELET_STATUS=$(minikube ssh -- systemctl is-active kubelet 2>/dev/null)
+    KUBELET_STATUS=$(minikube ssh -- systemctl is-active kubelet 2>/dev/null | tr -d '\r')
     if [ "$KUBELET_STATUS" = "active" ]; then
         check_passed "kubelet está activo en el nodo"
     else

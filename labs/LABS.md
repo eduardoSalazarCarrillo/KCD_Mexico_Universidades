@@ -940,11 +940,18 @@ Esta sección rastrea el progreso de creación de archivos para cada laboratorio
 
 ### Proyecto Final
 
-- [ ] `labs/proyecto-final/README.md`
-- [ ] `labs/proyecto-final/frontend/`
-- [ ] `labs/proyecto-final/backend/`
-- [ ] `labs/proyecto-final/database/`
-- [ ] `labs/proyecto-final/kubernetes/`
+- [x] `labs/proyecto-final/README.md`
+- [x] `labs/proyecto-final/initial/frontend/`
+- [x] `labs/proyecto-final/initial/backend/`
+- [x] `labs/proyecto-final/initial/database/`
+- [x] `labs/proyecto-final/initial/kubernetes/`
+- [x] `labs/proyecto-final/solution/frontend/`
+- [x] `labs/proyecto-final/solution/backend/`
+- [x] `labs/proyecto-final/solution/database/`
+- [x] `labs/proyecto-final/solution/kubernetes/`
+- [x] `labs/proyecto-final/solution/lab-completo.sh`
+- [x] `labs/proyecto-final/solution/salidas-esperadas.md`
+- [x] `labs/proyecto-final/solution/verificar-completado.sh`
 
 ---
 

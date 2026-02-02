@@ -170,6 +170,9 @@ fi
 echo ""
 echo "7. Verificando acceso via NodePort..."
 
+# Esperar a que el Service esté completamente operacional
+sleep 3
+
 MINIKUBE_IP=$(minikube ip 2>/dev/null)
 if [ -n "$MINIKUBE_IP" ]; then
     check_passed "minikube ip funciona ($MINIKUBE_IP)"

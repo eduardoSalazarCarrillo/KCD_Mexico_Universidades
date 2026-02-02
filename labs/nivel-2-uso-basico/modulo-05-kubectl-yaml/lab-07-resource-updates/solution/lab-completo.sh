@@ -323,8 +323,11 @@ print_command "kubectl rollout history deployment/webapp"
 kubectl rollout history deployment/webapp
 
 echo ""
-print_command "kubectl rollout undo deployment/webapp --to-revision=1"
-kubectl rollout undo deployment/webapp --to-revision=1
+# Obtener la primera revisión disponible en el historial
+FIRST_REVISION=$(kubectl rollout history deployment/webapp | grep -E "^[0-9]+" | head -1 | awk '{print $1}')
+echo -e "${CYAN}Nota: Haciendo rollback a la primera revisión disponible: $FIRST_REVISION${NC}"
+print_command "kubectl rollout undo deployment/webapp --to-revision=$FIRST_REVISION"
+kubectl rollout undo deployment/webapp --to-revision=$FIRST_REVISION
 
 echo ""
 print_command "kubectl rollout status deployment/webapp"

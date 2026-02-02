@@ -1,0 +1,24 @@
+# TODO: Crear el ConfigMap con la configuración del backend
+#
+# Nombre: backend-config
+# Namespace: todo-app
+#
+# Datos requeridos:
+# - NODE_ENV: entorno de ejecución (production)
+# - PORT: puerto del servidor (3000)
+# - DB_HOST: nombre del servicio de PostgreSQL
+# - DB_PORT: puerto de PostgreSQL (5432)
+# - DB_NAME: nombre de la base de datos
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: todo-app
+data:
+  # TODO: Agregar las variables de configuración
+  NODE_ENV: ""
+  PORT: ""
+  DB_HOST: ""
+  DB_PORT: ""
+  DB_NAME: ""
