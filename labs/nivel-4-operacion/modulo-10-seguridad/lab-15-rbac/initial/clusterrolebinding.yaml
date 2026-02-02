@@ -1,0 +1,28 @@
+# =============================================================================
+# ClusterRoleBinding: namespace-reader-binding
+# =============================================================================
+# Este ClusterRoleBinding vincula el ClusterRole "namespace-reader"
+# con un grupo de usuarios a nivel de todo el cluster.
+#
+# Diferencia entre RoleBinding y ClusterRoleBinding:
+# - RoleBinding: Vincula en UN namespace especifico
+# - ClusterRoleBinding: Vincula a nivel de TODO el cluster
+#
+# Nota importante:
+# - Un ClusterRoleBinding con un ClusterRole otorga permisos en TODO el cluster
+# - Un RoleBinding con un ClusterRole otorga permisos solo en ESE namespace
+# =============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: namespace-reader-binding
+  # Nota: ClusterRoleBinding NO tiene namespace en metadata
+subjects:
+  # Grupo de usuarios
+  - kind: Group
+    name: all-users
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: namespace-reader
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,20 @@
+# =============================================================================
+# RoleBinding: developer-binding
+# =============================================================================
+# Este RoleBinding vincula el Role "developer" con el usuario "john".
+# John tendra permisos completos para pods, services, configmaps y deployments
+# SOLO en el namespace rbac-lab.
+# =============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-binding
+  namespace: rbac-lab
+subjects:
+  - kind: User
+    name: john
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer
+  apiGroup: rbac.authorization.k8s.io

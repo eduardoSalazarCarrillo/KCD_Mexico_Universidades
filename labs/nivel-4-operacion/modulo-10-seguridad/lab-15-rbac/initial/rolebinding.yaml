@@ -1,0 +1,32 @@
+# =============================================================================
+# RoleBinding: read-pods-binding
+# =============================================================================
+# Este RoleBinding vincula el Role "pod-reader" con usuarios y grupos.
+#
+# Conceptos clave:
+# - subjects: Lista de usuarios, grupos o ServiceAccounts que reciben los permisos
+# - roleRef: El Role (o ClusterRole) que define los permisos
+#
+# Tipos de subjects:
+# - User: Usuario individual (autenticado externamente)
+# - Group: Grupo de usuarios
+# - ServiceAccount: Cuenta de servicio para pods
+# =============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods-binding
+  namespace: rbac-lab
+subjects:
+  # Usuario individual
+  - kind: User
+    name: jane
+    apiGroup: rbac.authorization.k8s.io
+  # Grupo de usuarios
+  - kind: Group
+    name: developers
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io

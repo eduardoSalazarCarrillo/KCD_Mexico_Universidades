@@ -1,0 +1,24 @@
+# =============================================================================
+# Role: pod-reader
+# =============================================================================
+# Este Role otorga permisos de solo lectura para Pods en el namespace rbac-lab.
+#
+# Conceptos clave:
+# - apiGroups: "" significa el core API group (pods, services, configmaps, etc.)
+# - resources: Los tipos de recursos a los que aplica
+# - verbs: Las acciones permitidas (get, list, watch, create, update, delete)
+# =============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: rbac-lab
+rules:
+  # Regla 1: Permisos para ver pods
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  # Regla 2: Permisos para ver logs de pods
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get"]

@@ -916,27 +916,27 @@ Esta sección rastrea el progreso de creación de archivos para cada laboratorio
 
 #### Lab 15: RBAC
 
-- [ ] `labs/nivel-4-operacion/modulo-10-seguridad/lab-15-rbac/README.md`
-- [ ] `labs/nivel-4-operacion/modulo-10-seguridad/lab-15-rbac/initial/`
-- [ ] `labs/nivel-4-operacion/modulo-10-seguridad/lab-15-rbac/solution/`
+- [x] `labs/nivel-4-operacion/modulo-10-seguridad/lab-15-rbac/README.md`
+- [x] `labs/nivel-4-operacion/modulo-10-seguridad/lab-15-rbac/initial/`
+- [x] `labs/nivel-4-operacion/modulo-10-seguridad/lab-15-rbac/solution/`
 
 #### Lab 16: Service Accounts
 
-- [ ] `labs/nivel-4-operacion/modulo-10-seguridad/lab-16-service-accounts/README.md`
-- [ ] `labs/nivel-4-operacion/modulo-10-seguridad/lab-16-service-accounts/initial/`
-- [ ] `labs/nivel-4-operacion/modulo-10-seguridad/lab-16-service-accounts/solution/`
+- [x] `labs/nivel-4-operacion/modulo-10-seguridad/lab-16-service-accounts/README.md`
+- [x] `labs/nivel-4-operacion/modulo-10-seguridad/lab-16-service-accounts/initial/`
+- [x] `labs/nivel-4-operacion/modulo-10-seguridad/lab-16-service-accounts/solution/`
 
 #### Lab 17: Prometheus y Grafana
 
-- [ ] `labs/nivel-4-operacion/modulo-11-monitoreo/lab-17-prometheus-grafana/README.md`
-- [ ] `labs/nivel-4-operacion/modulo-11-monitoreo/lab-17-prometheus-grafana/initial/`
-- [ ] `labs/nivel-4-operacion/modulo-11-monitoreo/lab-17-prometheus-grafana/solution/`
+- [x] `labs/nivel-4-operacion/modulo-11-monitoreo/lab-17-prometheus-grafana/README.md`
+- [x] `labs/nivel-4-operacion/modulo-11-monitoreo/lab-17-prometheus-grafana/initial/`
+- [x] `labs/nivel-4-operacion/modulo-11-monitoreo/lab-17-prometheus-grafana/solution/`
 
 #### Lab 18: Managed Kubernetes
 
-- [ ] `labs/nivel-4-operacion/modulo-12-kubernetes-nube/lab-18-managed-kubernetes/README.md`
-- [ ] `labs/nivel-4-operacion/modulo-12-kubernetes-nube/lab-18-managed-kubernetes/initial/`
-- [ ] `labs/nivel-4-operacion/modulo-12-kubernetes-nube/lab-18-managed-kubernetes/solution/`
+- [x] `labs/nivel-4-operacion/modulo-12-cloud/lab-18-managed-kubernetes/README.md`
+- [x] `labs/nivel-4-operacion/modulo-12-cloud/lab-18-managed-kubernetes/initial/`
+- [x] `labs/nivel-4-operacion/modulo-12-cloud/lab-18-managed-kubernetes/solution/`
 
 ### Proyecto Final
 

@@ -17,26 +17,26 @@ Gestionar informacion sensible con Kubernetes Secrets, entendiendo las diferenci
 
 Antes de comenzar, es importante entender estos conceptos:
 
-| Concepto          | Descripcion                                                                                            |
-| ----------------- | ------------------------------------------------------------------------------------------------------ |
-| **Secret**        | Objeto de Kubernetes para almacenar datos sensibles como passwords, tokens, o claves.                  |
-| **base64**        | Codificacion (NO encriptacion) usada para almacenar valores en Secrets. Facilmente reversible.         |
-| **data**          | Campo donde los valores DEBEN estar codificados en base64.                                             |
-| **stringData**    | Campo alternativo que acepta valores en texto plano (Kubernetes los codifica automaticamente).         |
-| **Opaque**        | Tipo de Secret por defecto para datos arbitrarios.                                                     |
-| **secretKeyRef**  | Referencia a una clave especifica de un Secret para inyectar como variable de entorno.                 |
-| **secretRef**     | Referencia a un Secret completo para inyectar todas sus claves como variables de entorno.              |
-| **defaultMode**   | Permisos de archivo cuando un Secret se monta como volumen (ej: 0400 = solo lectura para propietario). |
+| Concepto         | Descripcion                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| **Secret**       | Objeto de Kubernetes para almacenar datos sensibles como passwords, tokens, o claves.                  |
+| **base64**       | Codificacion (NO encriptacion) usada para almacenar valores en Secrets. Facilmente reversible.         |
+| **data**         | Campo donde los valores DEBEN estar codificados en base64.                                             |
+| **stringData**   | Campo alternativo que acepta valores en texto plano (Kubernetes los codifica automaticamente).         |
+| **Opaque**       | Tipo de Secret por defecto para datos arbitrarios.                                                     |
+| **secretKeyRef** | Referencia a una clave especifica de un Secret para inyectar como variable de entorno.                 |
+| **secretRef**    | Referencia a un Secret completo para inyectar todas sus claves como variables de entorno.              |
+| **defaultMode**  | Permisos de archivo cuando un Secret se monta como volumen (ej: 0400 = solo lectura para propietario). |
 
 ### Secrets vs ConfigMaps
 
-| Caracteristica     | ConfigMap              | Secret                           |
-| ------------------ | ---------------------- | -------------------------------- |
-| Proposito          | Configuracion general  | Datos sensibles (passwords, etc) |
-| Almacenamiento     | Texto plano            | Base64 (codificado)              |
-| Montaje en memoria | No (disco)             | Si (tmpfs por defecto)           |
-| Visible en `describe` | Si (valores visibles) | No (solo muestra bytes)        |
-| RBAC especial      | No es comun            | Altamente recomendado            |
+| Caracteristica        | ConfigMap             | Secret                           |
+| --------------------- | --------------------- | -------------------------------- |
+| Proposito             | Configuracion general | Datos sensibles (passwords, etc) |
+| Almacenamiento        | Texto plano           | Base64 (codificado)              |
+| Montaje en memoria    | No (disco)            | Si (tmpfs por defecto)           |
+| Visible en `describe` | Si (valores visibles) | No (solo muestra bytes)          |
+| RBAC especial         | No es comun           | Altamente recomendado            |
 
 ### Arquitectura de Secrets
 
@@ -82,13 +82,13 @@ Antes de comenzar, es importante entender estos conceptos:
 
 ### Tipos de Secrets
 
-| Tipo                                  | Uso                              | Creacion                          |
-| ------------------------------------- | -------------------------------- | --------------------------------- |
-| `Opaque`                              | Datos genericos                  | `kubectl create secret generic`   |
-| `kubernetes.io/dockerconfigjson`      | Credenciales de Docker registry  | `kubectl create secret docker-registry` |
-| `kubernetes.io/tls`                   | Certificados TLS                 | `kubectl create secret tls`       |
-| `kubernetes.io/service-account-token` | Tokens de ServiceAccount         | Automatico                        |
-| `kubernetes.io/basic-auth`            | Usuario/password                 | YAML con type especificado        |
+| Tipo                                  | Uso                             | Creacion                                |
+| ------------------------------------- | ------------------------------- | --------------------------------------- |
+| `Opaque`                              | Datos genericos                 | `kubectl create secret generic`         |
+| `kubernetes.io/dockerconfigjson`      | Credenciales de Docker registry | `kubectl create secret docker-registry` |
+| `kubernetes.io/tls`                   | Certificados TLS                | `kubectl create secret tls`             |
+| `kubernetes.io/service-account-token` | Tokens de ServiceAccount        | Automatico                              |
+| `kubernetes.io/basic-auth`            | Usuario/password                | YAML con type especificado              |
 
 ## Instrucciones
 
@@ -322,7 +322,7 @@ spec:
     - name: secret-volume
       secret:
         secretName: db-credentials
-        defaultMode: 0400  # Solo lectura para propietario
+        defaultMode: 0400 # Solo lectura para propietario
 ```
 
 **Explicacion**:
@@ -417,7 +417,7 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    resourceNames: ["db-credentials"]  # Solo este Secret
+    resourceNames: ["db-credentials"] # Solo este Secret
     verbs: ["get"]
 ```
 
@@ -433,15 +433,15 @@ kubectl auth can-i get secrets --as=system:serviceaccount:default:default
 
 #### Resumen de Buenas Practicas
 
-| Practica                | Descripcion                                                |
-| ----------------------- | ---------------------------------------------------------- |
-| **RBAC**                | Limitar quien puede leer Secrets                           |
-| **No Git**              | NUNCA hacer commit de Secrets a repositorios               |
-| **Sealed Secrets**      | Encriptar Secrets para poder versionar de forma segura     |
-| **External Secrets**    | Obtener Secrets desde vaults externos (HashiCorp, AWS, etc)|
-| **Rotacion**            | Cambiar Secrets periodicamente                             |
-| **Namespaces**          | Aislar Secrets por namespace                               |
-| **Encryption at rest**  | Habilitar encriptacion de etcd                             |
+| Practica               | Descripcion                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| **RBAC**               | Limitar quien puede leer Secrets                            |
+| **No Git**             | NUNCA hacer commit de Secrets a repositorios                |
+| **Sealed Secrets**     | Encriptar Secrets para poder versionar de forma segura      |
+| **External Secrets**   | Obtener Secrets desde vaults externos (HashiCorp, AWS, etc) |
+| **Rotacion**           | Cambiar Secrets periodicamente                              |
+| **Namespaces**         | Aislar Secrets por namespace                                |
+| **Encryption at rest** | Habilitar encriptacion de etcd                              |
 
 ### Paso 8: Limpiar Recursos
 
@@ -524,19 +524,19 @@ Antes de continuar al siguiente laboratorio, asegurate de poder marcar todos est
 
 ## Resumen de Comandos
 
-| Comando                                                | Descripcion                              |
-| ------------------------------------------------------ | ---------------------------------------- |
-| `kubectl create secret generic <n> --from-literal=k=v` | Crear Secret desde valores literales     |
-| `kubectl create secret generic <n> --from-file=<f>`    | Crear Secret desde archivo               |
-| `kubectl create secret docker-registry <n> ...`        | Crear Secret para Docker registry        |
-| `kubectl create secret tls <n> --cert=<c> --key=<k>`   | Crear Secret TLS                         |
-| `kubectl get secrets`                                  | Listar todos los Secrets                 |
-| `kubectl get secret <nombre> -o yaml`                  | Ver Secret en formato YAML               |
-| `kubectl describe secret <nombre>`                     | Ver detalles (sin valores)               |
-| `kubectl get secret <n> -o jsonpath='{.data.k}'`       | Obtener valor especifico (en base64)     |
-| `... \| base64 -d`                                     | Decodificar valor base64                 |
-| `echo -n 'valor' \| base64`                            | Codificar valor a base64                 |
-| `kubectl delete secret <nombre>`                       | Eliminar un Secret                       |
+| Comando                                                | Descripcion                          |
+| ------------------------------------------------------ | ------------------------------------ |
+| `kubectl create secret generic <n> --from-literal=k=v` | Crear Secret desde valores literales |
+| `kubectl create secret generic <n> --from-file=<f>`    | Crear Secret desde archivo           |
+| `kubectl create secret docker-registry <n> ...`        | Crear Secret para Docker registry    |
+| `kubectl create secret tls <n> --cert=<c> --key=<k>`   | Crear Secret TLS                     |
+| `kubectl get secrets`                                  | Listar todos los Secrets             |
+| `kubectl get secret <nombre> -o yaml`                  | Ver Secret en formato YAML           |
+| `kubectl describe secret <nombre>`                     | Ver detalles (sin valores)           |
+| `kubectl get secret <n> -o jsonpath='{.data.k}'`       | Obtener valor especifico (en base64) |
+| `... \| base64 -d`                                     | Decodificar valor base64             |
+| `echo -n 'valor' \| base64`                            | Codificar valor a base64             |
+| `kubectl delete secret <nombre>`                       | Eliminar un Secret                   |
 
 ## Conceptos Aprendidos
 
@@ -551,6 +551,7 @@ Antes de continuar al siguiente laboratorio, asegurate de poder marcar todos est
 ## Solucion
 
 Consulta el directorio `solution/` para ver:
+
 - `lab-completo.sh` - Script con todos los comandos
 - `verificar-completado.sh` - Script de verificacion
 - `salidas-esperadas.md` - Outputs esperados de cada comando

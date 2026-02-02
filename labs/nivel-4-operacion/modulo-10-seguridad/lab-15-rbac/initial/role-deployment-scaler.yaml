@@ -1,0 +1,26 @@
+# =============================================================================
+# Role: deployment-scaler (Ejercicio Adicional)
+# =============================================================================
+# Este Role solo permite escalar deployments.
+# Es un ejemplo del principio de menor privilegio - otorgar SOLO los permisos
+# necesarios para realizar una tarea especifica.
+#
+# Verbs especiales para scale:
+# - Para escalar, necesitas "get" para leer el deployment actual
+# - Y "update" o "patch" para modificar las replicas
+# - O usar el subresource "deployments/scale"
+# =============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: deployment-scaler
+  namespace: rbac-lab
+rules:
+  # Opcion 1: Usando el subresource scale (recomendado)
+  - apiGroups: ["apps"]
+    resources: ["deployments/scale"]
+    verbs: ["get", "update", "patch"]
+  # Tambien necesita ver deployments para saber que escalar
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]

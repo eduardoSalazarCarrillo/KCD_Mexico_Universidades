@@ -1,0 +1,94 @@
+# =============================================================================
+# Lab 17: Prometheus y Grafana - Valores de Configuración para Helm
+# =============================================================================
+# Este archivo contiene los valores personalizados para la instalación
+# de kube-prometheus-stack con Helm.
+# =============================================================================
+
+# Configuración de Prometheus
+prometheus:
+  prometheusSpec:
+    # Retención de datos (24 horas para el lab)
+    retention: 24h
+
+    # Recursos para Prometheus
+    resources:
+      requests:
+        cpu: 200m
+        memory: 400Mi
+      limits:
+        cpu: 500m
+        memory: 800Mi
+
+    # Scrape interval
+    scrapeInterval: 30s
+
+    # Evaluation interval para alertas
+    evaluationInterval: 30s
+
+# Configuración de Grafana
+grafana:
+  # Contraseña de administrador
+  adminPassword: admin123
+
+  # Recursos para Grafana
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+  # Configuración de datasources
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-kube-prometheus-prometheus:9090
+          access: proxy
+          isDefault: true
+
+  # Dashboards adicionales
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: "default"
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+# Configuración de Alertmanager
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
+
+# Componentes adicionales
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true
+
+# Prometheus Operator
+prometheusOperator:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limits:
+      cpu: 200m
+      memory: 200Mi
