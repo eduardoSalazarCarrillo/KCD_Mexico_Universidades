@@ -2,6 +2,77 @@
 
 Repositorio destinado a la creación de material didáctico para cursos universitarios, con el objetivo de ofrecer a los estudiantes una introducción práctica y accesible a Kubernetes.
 
+## Software Requerido
+
+Para completar los laboratorios de este curso, necesitarás instalar el siguiente software:
+
+### Herramientas Esenciales
+
+| Herramienta                                          | Versión Mínima | Descripción                        |
+| ---------------------------------------------------- | -------------- | ---------------------------------- |
+| [Docker](https://docs.docker.com/get-docker/)        | 24.0+          | Runtime de contenedores            |
+| [Minikube](https://minikube.sigs.k8s.io/docs/start/) | 1.32+          | Clúster local de Kubernetes        |
+| [kubectl](https://kubernetes.io/docs/tasks/tools/)   | 1.28+          | CLI para Kubernetes                |
+| [Helm](https://helm.sh/docs/intro/install/)          | 3.x            | Gestor de paquetes para Kubernetes |
+| [Git](https://git-scm.com/downloads)                 | 2.x            | Control de versiones               |
+
+### Herramientas de Cloud (Lab 18)
+
+| Herramienta                                                  | Plataforma | Descripción                |
+| ------------------------------------------------------------ | ---------- | -------------------------- |
+| [gcloud](https://cloud.google.com/sdk/docs/install)          | GCP        | Google Cloud SDK           |
+| [aws-cli](https://aws.amazon.com/cli/)                       | AWS        | AWS Command Line Interface |
+| [eksctl](https://eksctl.io/installation/)                    | AWS        | CLI para Amazon EKS        |
+| [az](https://docs.microsoft.com/cli/azure/install-azure-cli) | Azure      | Azure CLI                  |
+
+### Utilidades del Sistema
+
+| Herramienta     | Uso                                     |
+| --------------- | --------------------------------------- |
+| curl            | Pruebas de conectividad HTTP            |
+| openssl         | Generación de certificados TLS (Lab 11) |
+| base64          | Codificación de Secrets                 |
+| Editor de texto | nano, vim, o VS Code                    |
+
+### Instalación por Sistema Operativo
+
+**Linux (Ubuntu/Debian):**
+
+```bash
+# Docker
+sudo apt-get update
+sudo apt-get install -y docker.io
+sudo usermod -aG docker $USER
+
+# kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Minikube
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+# Helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+```
+
+**macOS:**
+
+```bash
+# Usando Homebrew
+brew install docker minikube kubectl helm git
+```
+
+**Windows:**
+
+```powershell
+# Usando Chocolatey
+choco install docker-desktop minikube kubernetes-cli kubernetes-helm git
+
+# O usando winget
+winget install Docker.DockerDesktop Kubernetes.minikube Kubernetes.kubectl Helm.Helm Git.Git
+```
+
 ## Temario
 
 ### Nivel 1: Fundamentos

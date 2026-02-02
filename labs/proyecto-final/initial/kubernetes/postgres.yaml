@@ -1,0 +1,73 @@
+# TODO: Crear los recursos de PostgreSQL
+#
+# 1. PersistentVolumeClaim
+#    - Nombre: postgres-pvc
+#    - Namespace: todo-app
+#    - Access Mode: ReadWriteOnce
+#    - Storage: 1Gi
+#
+# 2. StatefulSet
+#    - Nombre: postgres
+#    - Namespace: todo-app
+#    - Replicas: 1
+#    - Imagen: postgres:15-alpine
+#    - Puerto: 5432
+#    - Variables de entorno desde: postgres-secret
+#    - Volumen montado en: /var/lib/postgresql/data
+#
+# 3. Service
+#    - Nombre: postgres
+#    - Namespace: todo-app
+#    - Puerto: 5432
+#    - Selector: app: postgres
+
+---
+# PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: todo-app
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# TODO: Crear el StatefulSet de PostgreSQL
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: todo-app
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          # TODO: Agregar envFrom para cargar variables del Secret
+          # TODO: Agregar volumeMounts para /var/lib/postgresql/data
+      # TODO: Agregar volumes referenciando el PVC
+---
+# TODO: Crear el Service de PostgreSQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: todo-app
+spec:
+  # TODO: Agregar selector y puertos
+  ports:
+    - port: 5432

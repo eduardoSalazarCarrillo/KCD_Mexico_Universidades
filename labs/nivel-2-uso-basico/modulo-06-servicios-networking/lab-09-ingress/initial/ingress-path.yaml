@@ -1,0 +1,42 @@
+# =============================================================================
+# Lab 09: Ingress - Enrutamiento basado en Path
+# =============================================================================
+# Este Ingress enruta el tráfico a diferentes servicios basándose en el
+# path de la URL:
+#   - /frontend -> frontend-svc
+#   - /backend  -> backend-svc
+#
+# La anotación rewrite-target reescribe el path antes de enviarlo al backend:
+#   /frontend/algo -> /algo
+#   /backend/algo  -> /algo
+# =============================================================================
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    # Reescribe el path al enviar al backend
+    # /frontend/algo → /algo
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # Ruta para frontend: /frontend/*
+          - path: /frontend
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-svc
+                port:
+                  number: 80
+          # Ruta para backend: /backend/*
+          - path: /backend
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-svc
+                port:
+                  number: 80

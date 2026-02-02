@@ -1,0 +1,28 @@
+# =============================================================================
+# ClusterRole: namespace-reader
+# =============================================================================
+# Este ClusterRole otorga permisos para ver namespaces y nodos a nivel de cluster.
+#
+# Diferencia entre Role y ClusterRole:
+# - Role: Permisos limitados a UN namespace especifico
+# - ClusterRole: Permisos a nivel de TODO el cluster (o recursos sin namespace)
+#
+# Casos de uso de ClusterRole:
+# - Recursos sin namespace (nodes, namespaces, persistentvolumes)
+# - Permisos identicos en multiples namespaces (via RoleBinding)
+# - Permisos globales (via ClusterRoleBinding)
+# =============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: namespace-reader
+  # Nota: ClusterRole NO tiene namespace en metadata
+rules:
+  # Regla 1: Permisos para ver namespaces
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list", "watch"]
+  # Regla 2: Permisos para ver nodos
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list"]

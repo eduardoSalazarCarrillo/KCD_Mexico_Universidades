@@ -1,0 +1,24 @@
+# =============================================================================
+# Role: developer
+# =============================================================================
+# Este Role otorga permisos tipicos para un desarrollador en el namespace rbac-lab.
+# Incluye operaciones CRUD en pods, services, configmaps y deployments.
+#
+# Conceptos clave:
+# - Multiples apiGroups: "" (core) y "apps" (deployments, replicasets, etc.)
+# - Verbs completos: get, list, watch, create, update, delete
+# =============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+  namespace: rbac-lab
+rules:
+  # Regla 1: Permisos completos para recursos del core API
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+  # Regla 2: Permisos completos para deployments
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]

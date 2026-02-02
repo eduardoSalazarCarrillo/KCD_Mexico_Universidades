@@ -1,0 +1,6 @@
+# TODO: Crear el namespace para la aplicación
+# El namespace debe llamarse: todo-app
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: todo-app

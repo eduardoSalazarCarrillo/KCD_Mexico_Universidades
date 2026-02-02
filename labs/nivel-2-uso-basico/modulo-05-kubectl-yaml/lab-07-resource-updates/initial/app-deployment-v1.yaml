@@ -1,0 +1,46 @@
+# Deployment v1 - Versión inicial de la aplicación
+# Este archivo se usa para practicar actualizaciones y rollbacks
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  labels:
+    app: webapp
+    version: v1
+  annotations:
+    kubernetes.io/change-cause: "Despliegue inicial v1 - nginx:1.24-alpine"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1 # Máximo pods adicionales durante actualización
+      maxUnavailable: 0 # Siempre mantener todos los pods disponibles
+  template:
+    metadata:
+      labels:
+        app: webapp
+        version: v1
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.24-alpine
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5

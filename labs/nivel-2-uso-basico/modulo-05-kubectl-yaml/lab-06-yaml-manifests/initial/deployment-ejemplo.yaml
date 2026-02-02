@@ -1,0 +1,47 @@
+apiVersion: apps/v1 # Deployments están en el grupo "apps"
+kind: Deployment
+metadata:
+  name: web-deployment
+  labels:
+    app: web
+    tier: frontend
+  annotations:
+    kubernetes.io/change-cause: "Versión inicial del deployment"
+spec:
+  replicas: 3 # Número de réplicas deseadas
+  selector: # Cómo el Deployment encuentra sus Pods
+    matchLabels:
+      app: web
+      tier: frontend
+  template: # Template para crear Pods
+    metadata:
+      labels: # DEBEN coincidir con selector.matchLabels
+        app: web
+        tier: frontend
+        version: v1
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.24-alpine
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          livenessProbe: # Verifica si el contenedor está vivo
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe: # Verifica si el contenedor puede recibir tráfico
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5

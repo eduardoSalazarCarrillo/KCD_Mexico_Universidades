@@ -1,0 +1,105 @@
+# =============================================================================
+# Lab 09: Ingress - Aplicaciones de Ejemplo
+# =============================================================================
+# Este archivo contiene los Deployments y Services para las aplicaciones
+# frontend y backend que expondremos a través del Ingress.
+# =============================================================================
+
+# Deployment y Service para Frontend (nginx)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          # Personalizar la página de inicio para identificar el frontend
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo '<!DOCTYPE html>
+              <html>
+              <head><title>Frontend App</title></head>
+              <body>
+              <h1>Frontend Application</h1>
+              <p>Hostname: '$(hostname)'</p>
+              <p>Esta es la aplicacion FRONTEND servida por NGINX</p>
+              </body>
+              </html>' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+
+
+# Deployment y Service para Backend (httpd/Apache)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-backend
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: httpd
+          image: httpd:alpine
+          ports:
+            - containerPort: 80
+          # Personalizar la página de inicio para identificar el backend
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo '<!DOCTYPE html>
+              <html>
+              <head><title>Backend App</title></head>
+              <body>
+              <h1>Backend Application</h1>
+              <p>Hostname: '$(hostname)'</p>
+              <p>Esta es la aplicacion BACKEND servida por Apache HTTPD</p>
+              </body>
+              </html>' > /usr/local/apache2/htdocs/index.html && httpd-foreground
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - port: 80
+      targetPort: 80

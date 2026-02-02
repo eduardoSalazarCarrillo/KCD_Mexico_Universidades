@@ -1,0 +1,57 @@
+# TODO: Crear el Deployment y Service del Backend
+#
+# Deployment:
+#   - Nombre: backend
+#   - Namespace: todo-app
+#   - Replicas: 3
+#   - Imagen: todo-backend:v1
+#   - Puerto: 3000
+#   - Variables de entorno desde: backend-config (ConfigMap) y postgres-secret (Secret)
+#   - Resources:
+#     - Requests: cpu: 100m, memory: 128Mi
+#     - Limits: cpu: 200m, memory: 256Mi
+#   - Probes:
+#     - readinessProbe: GET /health, initialDelaySeconds: 5
+#     - livenessProbe: GET /health, initialDelaySeconds: 10
+#
+# Service:
+#   - Nombre: backend
+#   - Namespace: todo-app
+#   - Puerto: 3000
+#   - Selector: app: backend
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: todo-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: todo-backend:v1
+          ports:
+            - containerPort: 3000
+          # TODO: Agregar envFrom con configMapRef y secretRef
+          # TODO: Agregar resources (requests y limits)
+          # TODO: Agregar readinessProbe y livenessProbe
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: todo-app
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 3000

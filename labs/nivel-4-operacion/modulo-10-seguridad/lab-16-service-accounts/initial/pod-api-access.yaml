@@ -1,0 +1,17 @@
+# Pod para acceder a la API de Kubernetes (Ejercicio Adicional 3)
+# Este pod usa curl para interactuar directamente con la API de Kubernetes
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-api-access
+spec:
+  serviceAccountName: app-service-account
+  containers:
+    - name: curl
+      image: curlimages/curl:latest
+      command: ["sleep", "3600"]
+      # El pod puede usar curl para acceder a la API:
+      # curl -s --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
+      #   -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+      #   https://kubernetes.default.svc/api/v1/namespaces/default/pods

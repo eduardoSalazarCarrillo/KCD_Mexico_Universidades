@@ -1,0 +1,171 @@
+# =============================================================================
+# Lab 17: Prometheus y Grafana - Aplicación de Ejemplo para Monitoreo
+# =============================================================================
+# Esta aplicación se usará para practicar el monitoreo con Prometheus y Grafana.
+# Incluye un Deployment, Service y ServiceMonitor para scraping de métricas.
+# =============================================================================
+
+---
+# Namespace para la aplicación de ejemplo
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-app
+  labels:
+    monitoring: enabled
+
+---
+# Deployment de la aplicación web
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: demo-app
+  labels:
+    app: web-app
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.25-alpine
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+---
+# Service para la aplicación web
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app
+  namespace: demo-app
+  labels:
+    app: web-app
+spec:
+  selector:
+    app: web-app
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+  type: ClusterIP
+
+---
+# Deployment de una aplicación con métricas personalizadas (usando nginx-prometheus-exporter simulado)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-api
+  namespace: demo-app
+  labels:
+    app: backend-api
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-api
+  template:
+    metadata:
+      labels:
+        app: backend-api
+        version: v1
+    spec:
+      containers:
+        - name: api
+          image: hashicorp/http-echo:0.2.3
+          args:
+            - "-text=Hello from Backend API"
+            - "-listen=:8080"
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+
+---
+# Service para el backend
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-api
+  namespace: demo-app
+  labels:
+    app: backend-api
+spec:
+  selector:
+    app: backend-api
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+  type: ClusterIP
+
+---
+# Pod para generar tráfico (load generator)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: traffic-generator
+  namespace: demo-app
+  labels:
+    app: traffic-generator
+spec:
+  containers:
+    - name: generator
+      image: busybox:1.36
+      command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Generador de tráfico iniciado"
+          while true; do
+            wget -q -O- http://web-app.demo-app.svc.cluster.local/ > /dev/null 2>&1
+            wget -q -O- http://backend-api.demo-app.svc.cluster.local:8080/ > /dev/null 2>&1
+            sleep 1
+          done
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+  restartPolicy: Always

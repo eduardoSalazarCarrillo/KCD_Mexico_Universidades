@@ -1,0 +1,30 @@
+# TODO: Crear el Ingress para exponer la aplicación
+#
+# Nombre: todo-ingress
+# Namespace: todo-app
+# Host: todo.local
+# IngressClassName: nginx
+#
+# Rutas:
+#   - /api/* -> backend:3000 (con rewrite para quitar /api)
+#   - /* -> frontend:80
+#
+# Anotaciones necesarias:
+#   - nginx.ingress.kubernetes.io/rewrite-target: /$2
+#   - nginx.ingress.kubernetes.io/use-regex: "true"
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-ingress
+  namespace: todo-app
+  annotations:
+    # TODO: Agregar anotación para rewrite-target y use-regex
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: todo.local
+      http:
+        paths:
+          # TODO: Agregar path para /api
+          # TODO: Agregar path para /

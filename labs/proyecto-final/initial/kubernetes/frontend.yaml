@@ -1,0 +1,51 @@
+# TODO: Crear el Deployment y Service del Frontend
+#
+# Deployment:
+#   - Nombre: frontend
+#   - Namespace: todo-app
+#   - Replicas: 3
+#   - Imagen: todo-frontend:v1
+#   - Puerto: 80
+#   - Resources:
+#     - Requests: cpu: 50m, memory: 64Mi
+#     - Limits: cpu: 100m, memory: 128Mi
+#
+# Service:
+#   - Nombre: frontend
+#   - Namespace: todo-app
+#   - Puerto: 80
+#   - Selector: app: frontend
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: todo-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: todo-frontend:v1
+          ports:
+            - containerPort: 80
+          # TODO: Agregar resources (requests y limits)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: todo-app
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 80

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: restricted-sa
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-restricted-sa
+spec:
+  serviceAccountName: restricted-sa
+  containers:
+    - name: app
+      image: nginx:alpine

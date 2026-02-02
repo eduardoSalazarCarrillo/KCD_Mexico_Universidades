@@ -1,0 +1,139 @@
+# =============================================================================
+# Lab 17: Prometheus y Grafana - Reglas de Alerta Personalizadas
+# =============================================================================
+# Este archivo define alertas personalizadas para Prometheus.
+# Las alertas se disparan cuando las condiciones definidas se cumplen.
+# =============================================================================
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: custom-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus
+    app: kube-prometheus-stack
+spec:
+  groups:
+    # =========================================================================
+    # Alertas de Pods
+    # =========================================================================
+    - name: pod-alerts
+      rules:
+        # Alerta: Pod no está Ready
+        - alert: PodNotReady
+          expr: kube_pod_status_phase{phase!="Running",phase!="Succeeded"} > 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod {{ $labels.pod }} no está Ready"
+            description: "El pod {{ $labels.pod }} en el namespace {{ $labels.namespace }} ha estado en estado {{ $labels.phase }} por más de 5 minutos."
+
+        # Alerta: Pod reiniciando frecuentemente
+        - alert: PodRestartingTooMuch
+          expr: increase(kube_pod_container_status_restarts_total[1h]) > 5
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod {{ $labels.pod }} reiniciando frecuentemente"
+            description: "El pod {{ $labels.pod }} ha reiniciado {{ $value }} veces en la última hora."
+
+    # =========================================================================
+    # Alertas de Recursos
+    # =========================================================================
+    - name: resource-alerts
+      rules:
+        # Alerta: Alto uso de memoria
+        - alert: HighMemoryUsage
+          expr: |
+            (
+              container_memory_working_set_bytes{container!="", container!="POD"}
+              /
+              container_spec_memory_limit_bytes{container!="", container!="POD"}
+            ) > 0.8
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Alto uso de memoria en {{ $labels.pod }}"
+            description: "El contenedor {{ $labels.container }} en el pod {{ $labels.pod }} está usando más del 80% de su límite de memoria."
+
+        # Alerta: Alto uso de CPU
+        - alert: HighCPUUsage
+          expr: |
+            (
+              sum(rate(container_cpu_usage_seconds_total{container!="", container!="POD"}[5m])) by (pod, container, namespace)
+              /
+              sum(container_spec_cpu_quota{container!="", container!="POD"}/container_spec_cpu_period{container!="", container!="POD"}) by (pod, container, namespace)
+            ) > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Alto uso de CPU en {{ $labels.pod }}"
+            description: "El contenedor {{ $labels.container }} en el pod {{ $labels.pod }} está usando más del 80% de su límite de CPU."
+
+    # =========================================================================
+    # Alertas de Nodos
+    # =========================================================================
+    - name: node-alerts
+      rules:
+        # Alerta: Nodo con poca memoria disponible
+        - alert: NodeMemoryPressure
+          expr: |
+            (
+              node_memory_MemAvailable_bytes
+              /
+              node_memory_MemTotal_bytes
+            ) < 0.1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Nodo {{ $labels.instance }} con poca memoria"
+            description: "El nodo {{ $labels.instance }} tiene menos del 10% de memoria disponible."
+
+        # Alerta: Nodo con disco casi lleno
+        - alert: NodeDiskPressure
+          expr: |
+            (
+              node_filesystem_avail_bytes{mountpoint="/"}
+              /
+              node_filesystem_size_bytes{mountpoint="/"}
+            ) < 0.1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Nodo {{ $labels.instance }} con poco espacio en disco"
+            description: "El nodo {{ $labels.instance }} tiene menos del 10% de espacio disponible en el disco raíz."
+
+    # =========================================================================
+    # Alertas de Deployments
+    # =========================================================================
+    - name: deployment-alerts
+      rules:
+        # Alerta: Deployment sin réplicas disponibles
+        - alert: DeploymentReplicasUnavailable
+          expr: kube_deployment_status_replicas_available == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Deployment {{ $labels.deployment }} sin réplicas"
+            description: "El deployment {{ $labels.deployment }} en el namespace {{ $labels.namespace }} no tiene réplicas disponibles."
+
+        # Alerta: Deployment con menos réplicas de las deseadas
+        - alert: DeploymentReplicasMismatch
+          expr: |
+            kube_deployment_status_replicas_available
+            <
+            kube_deployment_spec_replicas
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Deployment {{ $labels.deployment }} con réplicas insuficientes"
+            description: "El deployment {{ $labels.deployment }} tiene {{ $value }} réplicas disponibles pero se esperan {{ $labels.spec_replicas }}."

@@ -1,0 +1,34 @@
+# Cada manifiesto de Kubernetes sigue esta estructura
+apiVersion: v1 # Versión de la API (v1 para recursos core)
+kind: Pod # Tipo de recurso
+metadata: # Metadatos del recurso
+  name: pod-ejemplo # Nombre único del recurso (requerido)
+  namespace: default # Namespace donde se crea (default si se omite)
+  labels: # Labels para organizar y seleccionar
+    app: mi-aplicacion
+    environment: desarrollo
+    version: v1.0.0
+  annotations: # Metadatos adicionales (no para selección)
+    description: "Pod de ejemplo para el laboratorio 06"
+    creado-por: "equipo-devops"
+spec: # Especificación del estado deseado
+  containers: # Lista de contenedores (mínimo 1)
+    - name: nginx # Nombre del contenedor
+      image: nginx:1.24-alpine # Imagen a usar
+      ports: # Puertos que expone el contenedor
+        - containerPort: 80
+          name: http
+          protocol: TCP
+      resources: # Recursos del contenedor
+        requests: # Recursos mínimos garantizados
+          memory: "64Mi"
+          cpu: "100m" # 100 milicores = 0.1 CPU
+        limits: # Recursos máximos permitidos
+          memory: "128Mi"
+          cpu: "200m"
+      env: # Variables de entorno
+        - name: NGINX_HOST
+          value: "localhost"
+        - name: NGINX_PORT
+          value: "80"
+  restartPolicy: Always # Política de reinicio (Always, OnFailure, Never)

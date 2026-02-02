@@ -1,0 +1,41 @@
+# =============================================================================
+# Lab 09: Ingress - Enrutamiento basado en Host (Virtual Hosts)
+# =============================================================================
+# Este Ingress enruta el tráfico a diferentes servicios basándose en el
+# nombre de host (header Host de la petición HTTP):
+#   - frontend.local -> frontend-svc
+#   - backend.local  -> backend-svc
+#
+# Para probar localmente, debes agregar estos hosts a /etc/hosts:
+#   echo "$(minikube ip) frontend.local backend.local" | sudo tee -a /etc/hosts
+# =============================================================================
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress-host
+spec:
+  ingressClassName: nginx
+  rules:
+    # Regla para frontend.local
+    - host: frontend.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-svc
+                port:
+                  number: 80
+    # Regla para backend.local
+    - host: backend.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-svc
+                port:
+                  number: 80

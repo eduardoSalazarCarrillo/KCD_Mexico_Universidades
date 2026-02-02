@@ -1,0 +1,52 @@
+# Deployment v2 - Versión actualizada con más recursos y réplicas
+# Cambios desde v1:
+#   - replicas: 3 → 4
+#   - version label: v1 → v2
+#   - memory requests: 64Mi → 128Mi
+#   - cpu requests: 100m → 150m
+#   - memory limits: 128Mi → 256Mi
+#   - cpu limits: 200m → 300m
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  labels:
+    app: webapp
+    version: v2
+  annotations:
+    kubernetes.io/change-cause: "v2 - Aumentar recursos y réplicas"
+spec:
+  replicas: 4 # Aumentado de 3 a 4
+  selector:
+    matchLabels:
+      app: webapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: webapp
+        version: v2 # Cambiado de v1 a v2
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.25-alpine
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              memory: "128Mi" # Aumentado de 64Mi
+              cpu: "150m" # Aumentado de 100m
+            limits:
+              memory: "256Mi" # Aumentado de 128Mi
+              cpu: "300m" # Aumentado de 200m
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5

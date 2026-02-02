@@ -1,0 +1,21 @@
+# TODO: Crear el HorizontalPodAutoscaler para el backend
+#
+# Nombre: backend-hpa
+# Namespace: todo-app
+# Target: Deployment/backend
+# Min replicas: 2
+# Max replicas: 10
+# Métrica: CPU al 70%
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+  namespace: todo-app
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend
+  # TODO: Configurar minReplicas y maxReplicas
+  # TODO: Configurar metrics para CPU
